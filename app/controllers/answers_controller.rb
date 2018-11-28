@@ -1,8 +1,12 @@
 class AnswersController < ApplicationController
-  before_action :find_question
+  before_action :find_question, only: %i[new create]
+  before_action :find_answer, only: :edit
 
   def new
     @answer = @question.answers.new
+  end
+
+  def edit
   end
 
   def create
@@ -19,6 +23,10 @@ class AnswersController < ApplicationController
 
   def find_question
     @question = Question.find(params[:question_id])
+  end
+
+  def find_answer
+    @answer = Answer.find(params[:id])
   end
 
   def answer_params
