@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create]
-  before_action :find_answer, only: :edit
+  before_action :find_answer, only: %i[edit update destroy]
 
   def new
     @answer = @question.answers.new
@@ -16,6 +16,14 @@ class AnswersController < ApplicationController
       redirect_to @question
     else
       render :new
+    end
+  end
+
+  def update
+    if @answer.update(answer_params)
+      redirect_to question_path(@answer.question)
+    else
+      render :edit
     end
   end
 
