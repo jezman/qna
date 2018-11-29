@@ -21,7 +21,7 @@ class AnswersController < ApplicationController
 
   def update
     if @answer.update(answer_params)
-      redirect_to question_path(@answer.question)
+      redirect_to @answer.question
     else
       render :edit
     end
@@ -29,7 +29,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_path(@answer.question)
+    redirect_to @answer.question
   end
 
   private
@@ -43,6 +43,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :question_id)
+    params.require(:answer).permit(:body)
   end
 end
