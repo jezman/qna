@@ -53,7 +53,7 @@ RSpec.describe AnswersController, type: :controller do
           answer: attributes_for(:answer, :invalid_answer),
           question_id: question
         }
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end
