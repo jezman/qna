@@ -5,20 +5,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
 
-  describe 'GET #new' do
-    before { login(user) }
-
-    before { get :new, params: { question_id: question } }
-
-    it 'assigns a new Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'POST #create' do
     before { login(user) }
 
@@ -136,7 +122,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'delete the question' do
-        expect { delete :destroy, params: { id: author_answer } }.to_not change(question.answers, :count)
+        expect { delete :destroy, params: { id: author_answer } }.to_not change(Answer, :count)
       end
 
       it 'redirects to question show' do

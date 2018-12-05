@@ -1,11 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: %i[new create destroy]
-  before_action :find_question, only: %i[new create]
+  before_action :authenticate_user!
+  before_action :find_question, only: :create
   before_action :find_answer, only: %i[edit update destroy]
-
-  def new
-    @answer = @question.answers.new
-  end
 
   def edit; end
 

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 feature 'User can view the list of answers' do
-  given!(:question) { create(:question) }
-  given!(:answers) { create_list(:answer, 3, question: question) }
+  given(:user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given!(:answers) { create_list(:answer, 3, question: question, user: user) }
 
   scenario 'answers list on the question page' do
     visit question_path(question)
