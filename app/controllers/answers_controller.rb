@@ -7,8 +7,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -30,7 +29,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
+    flash[:notice] = if current_user.author?(@answer)
+                       @answer.destroy
+                       'Answer successfully deleted.'
+                     else
+                       'Only author can delete answer.'
+                     end
+
     redirect_to @answer.question
   end
 
