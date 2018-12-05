@@ -12,7 +12,8 @@ FactoryBot.define do
     body
   end
 
-  trait :invalid_email do
+  trait :invalid_question do
     title { nil }
+    body { nil }
   end
 end
