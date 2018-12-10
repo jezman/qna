@@ -14,18 +14,18 @@ RSpec.describe AnswersController, type: :controller do
           post :create, params: {
             answer: attributes_for(:answer),
             question_id: question
-          }
+          }, format: :js
         end.to change(question.answers, :count).by(1)
       end
 
       it 'assigns a new answer to question' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question }
+        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
         expect(assigns(:answer).question).to eq question
       end
 
       it 'redirects to question show view' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question }
-        expect(response).to redirect_to assigns(:question)
+        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        expect(response).to render_template :create
       end
     end
 
@@ -34,7 +34,8 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           post :create, params: {
             answer: attributes_for(:answer, :invalid_answer),
-            question_id: question
+            question_id: question,
+            format: :js
           }
         end.to_not change(question.answers, :count)
       end
@@ -42,9 +43,10 @@ RSpec.describe AnswersController, type: :controller do
       it 're-renders new view' do
         post :create, params: {
           answer: attributes_for(:answer, :invalid_answer),
-          question_id: question
+          question_id: question,
+          format: :js
         }
-        expect(response).to render_template 'questions/show'
+        expect(response).to render_template :create
       end
     end
   end
