@@ -5,7 +5,7 @@ div class = "answer-#{answer.id}"
   - if answer.persisted?
     - if current_user&.author?(answer)
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-      = link_to 'Remove answer', answer_path(answer), method: :delete
+      = link_to 'Remove answer', answer_path(answer), class: 'delete-answer-link', remote: true, method: :delete, data: { answer_id: answer.id }
 
   = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = render 'shared/errors', resource: answer

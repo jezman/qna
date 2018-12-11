@@ -2,6 +2,7 @@
   $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 <% else %>
   $('.answers').append('<%= j render @answer %>');
+  $('.flash').html('');
   $('.flash').append('<%= flash_messages %>');
   $('#answer_body').val('');
 <% end %>

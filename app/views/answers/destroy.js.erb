@@ -5,5 +5,5 @@
 <% else %>
   $('.flash').html('');
   $('.flash').append('<%= flash_messages %>');
-  $('<%= answer_id %>').html('<%= j render @answer %>');
+  $('<% answer_id %>').remove();
 <% end %>

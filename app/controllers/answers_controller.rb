@@ -1,9 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: :create
-  before_action :find_answer, only: %i[edit update destroy]
-
-  def edit; end
+  before_action :find_answer, only: %i[update destroy]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -19,14 +17,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    flash[:notice] = if current_user.author?(@answer)
-                       @answer.destroy
-                       'Answer successfully deleted.'
-                     else
-                       'Only author can delete answer.'
-                     end
-
-    redirect_to @answer.question
+    if current_user.author?(@answer)
+      @answer.destroy
+      flash[:notice] = 'Answer successfully deleted.'
+    else
+      flash[:notice] = 'Only author can delete answer.'
+    end
   end
 
   private
