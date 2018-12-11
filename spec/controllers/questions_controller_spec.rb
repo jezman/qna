@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let(:question) { create(:question, user: user) }
 
   describe 'GET #index' do
@@ -74,27 +75,17 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    before { get :edit, params: { id: question } }
-
-    it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'PATCH #update' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'aasigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(assigns(:question)).to eq question
       end
 
       it 'change question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
         question.reload
 
         expect(question.title).to eq 'new title'
@@ -102,23 +93,21 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirects to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to question
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(response).to render_template :update
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
-
       it 'does not change question' do
-        question.reload
-
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect do
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid_question) }, format: :js
+        end.to_not change(question, :body)
       end
 
       it 're-renders edit view' do
-        expect(response).to render_template :edit
+        patch :update, params: { id: question, question: attributes_for(:question, :invalid_question) }, format: :js
+        expect(response).to render_template :update
       end
     end
   end

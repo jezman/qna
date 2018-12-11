@@ -1,5 +1,14 @@
-p= answer.body
+div class = "answer-#{answer.id}"
+  div class = "answer-#{answer.id}-errors"
+  p= answer.body
 
-- if answer.persisted?
-  - if current_user&.author?(answer)
-    = link_to 'Remove answer', answer_path(answer), method: :delete
+  - if answer.persisted?
+    - if current_user&.author?(answer)
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      = link_to 'Remove answer', answer_path(answer), method: :delete
+
+  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+    = render 'shared/errors', resource: answer
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+    = f.submit 'Save' 
