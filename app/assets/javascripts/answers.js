@@ -13,4 +13,10 @@ $(document).on('turbolinks:load', function(){
        console.log(answerId);
        $('.answer-' + answerId).remove();
    })
+
+   $('.answers').on('click', '.best-answer-link', function(e) {
+       e.preventDefault();
+       var answerId = $(this).data('answerId');
+       console.log(answerId);
+   })
 }); 
