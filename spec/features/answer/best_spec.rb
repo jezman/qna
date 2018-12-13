@@ -10,6 +10,7 @@ feature 'Best answer', %q{
   given!(:question) { create(:question, user: user) }
   given!(:first_answer) { create(:answer, question: question, user: user) }
   given!(:second_answer) { create(:answer, question: question, user: user) }
+  given!(:third_answer) { create(:answer, question: question, user: user) }
 
   scenario 'Unauthenticated user or non question author can not set best answer' do
     visit question_path(question)
@@ -20,10 +21,6 @@ feature 'Best answer', %q{
   describe 'Authenticated user is question author', js: true do
     before { sign_in user }
     before { visit question_path(question) }
-
-    scenario 'link to choose the best answer available' do
-      expect(page).to have_link 'Choose the best'
-    end
 
     scenario 'best answer link not available for best answer' do
       within(".answer-#{first_answer.id}") do
@@ -37,16 +34,16 @@ feature 'Best answer', %q{
       end
     end
 
-    scenario 'can change the best answer' do
-      within(".answer-#{second_answer.id}") do
+    scenario 'best answer is first in list' do
+      expect(third_answer).to_not eq question.answers.first
+
+      within(".answer-#{third_answer.id}") do
         click_on 'Choose the best'
 
         expect(page).to_not have_link 'Choose the best'
       end
 
-      within(".answer-#{first_answer.id}") do
-        expect(page).to have_link 'Choose the best'
-      end
+      expect(third_answer).to eq question.answers.first
     end
   end
 end

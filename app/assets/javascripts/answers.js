@@ -3,20 +3,6 @@ $(document).on('turbolinks:load', function(){
        e.preventDefault();
        $(this).hide();
        var answerId = $(this).data('answerId');
-       console.log(answerId);
        $('form#edit-answer-' + answerId).removeClass('hidden');
-   })
-
-   $('.answers').on('click', '.delete-answer-link', function(e) {
-       e.preventDefault();
-       var answerId = $(this).data('answerId');
-       console.log(answerId);
-       $('.answer-' + answerId).remove();
-   })
-
-   $('.answers').on('click', '.best-answer-link', function(e) {
-       e.preventDefault();
-       var answerId = $(this).data('answerId');
-       console.log(answerId);
    })
 }); 

@@ -23,6 +23,11 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer).question).to eq question
       end
 
+      it 'assign created answer by current user' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        expect(assigns(:answer).user).to eq user
+      end
+
       it 'redirects to question show view' do
         post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
         expect(response).to render_template :create
@@ -133,19 +138,5 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :best
       end
     end
-
-  #   context 'user is not an author' do
-  #     before { login(user) }
-  #     before { patch :best, params: { id: answer, format: :js } }
-
-  #     it 'not set best answer' do
-  #       expect(answer.reload).to_not be_best
-  #     end
-
-  #     it 'renders update view' do
-  #       patch :update, params: { id: author_answer, answer: attributes_for(:answer, :invalid_answer) }, format: :js
-  #       expect(response).to render_template :update
-  #     end
-  #   end
   end
 end

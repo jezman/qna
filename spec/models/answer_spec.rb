@@ -30,5 +30,14 @@ RSpec.describe Answer, type: :model do
       expect(best_answer).to_not be_best
       expect(question.answers.best.count).to eq 1
     end
+
+    it 'best answer is first in list' do
+      expect(answer).to eq question.answers.first
+
+      best_answer = create(:answer, question: question, user: user, best: true)
+
+      expect(answer).to_not eq question.answers.first
+      expect(best_answer).to eq question.answers.first
+    end
   end
 end
