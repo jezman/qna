@@ -13,6 +13,8 @@ class AnswersController < ApplicationController
     if current_user.author?(@answer)
       @answer.update(answer_params)
       @question = @answer.question
+    else
+      redirect_to @answer.question
     end
   end
 
@@ -22,6 +24,7 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Answer successfully deleted.'
     else
       flash[:notice] = 'Only author can delete answer.'
+      redirect_to @answer.question
     end
   end
 

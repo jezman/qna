@@ -40,7 +40,7 @@ feature 'Best answer', %q{
       within(".answer-#{third_answer.id}") do
         click_on 'Choose the best'
 
-        expect(page).to_not have_link 'Choose the best'
+        wait_for_ajax
       end
 
       expect(third_answer).to eq question.answers.first

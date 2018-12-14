@@ -71,7 +71,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders update view' do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
-        expect(response).to render_template :update
+        expect(response).to redirect_to answer.question
       end
     end
 
@@ -82,11 +82,6 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           patch :update, params: { id: author_answer, answer: attributes_for(:answer, :invalid_answer) }, format: :js
         end.to_not change(author_answer, :body)
-      end
-
-      it 'renders update view' do
-        patch :update, params: { id: author_answer, answer: attributes_for(:answer, :invalid_answer) }, format: :js
-        expect(response).to render_template :update
       end
     end
   end
@@ -113,11 +108,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'delete the question' do
         expect { delete :destroy, params: { id: author_answer }, format: :js }.to_not change(Answer, :count)
-      end
-
-      it 're-render question show' do
-        delete :destroy, params: { id: author_answer, format: :js }
-        expect(response).to render_template :destroy
       end
     end
   end

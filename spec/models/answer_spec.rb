@@ -18,16 +18,22 @@ RSpec.describe Answer, type: :model do
       expect(answer).to be_best
     end
 
-    it 'only one answer can be the best' do
+    it 'should change the best answer' do
       best_answer = create(:answer, question: question, user: user, best: true)
-
-      expect(best_answer).to be_best
 
       answer.best!
       best_answer.reload
 
       expect(answer).to be_best
       expect(best_answer).to_not be_best
+    end
+
+    it 'only one answer can be the best' do
+      best_answer = create(:answer, question: question, user: user, best: true)
+
+      answer.best!
+      best_answer.reload
+
       expect(question.answers.best.count).to eq 1
     end
 
@@ -36,7 +42,6 @@ RSpec.describe Answer, type: :model do
 
       best_answer = create(:answer, question: question, user: user, best: true)
 
-      expect(answer).to_not eq question.answers.first
       expect(best_answer).to eq question.answers.first
     end
   end
