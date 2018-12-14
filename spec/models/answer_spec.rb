@@ -11,37 +11,30 @@ RSpec.describe Answer, type: :model do
   describe '#best!' do
     let(:user) { create(:user) }
     let(:question) { create(:question, user: user) }
+    let!(:best_answer) { create(:answer, question: question, user: user, best: true) }
     let(:answer) { create(:answer, question: question, user: user) }
 
+    before { answer.best! }
+    before { best_answer.reload }
+
     it 'should make answer the best' do
-      answer.best!
       expect(answer).to be_best
     end
 
     it 'should change the best answer' do
-      best_answer = create(:answer, question: question, user: user, best: true)
+      best_answer.best!
+      answer.reload
 
-      answer.best!
-      best_answer.reload
-
-      expect(answer).to be_best
-      expect(best_answer).to_not be_best
+      expect(answer).to_not be_best
+      expect(best_answer).to be_best
     end
 
     it 'only one answer can be the best' do
-      best_answer = create(:answer, question: question, user: user, best: true)
-
-      answer.best!
-      best_answer.reload
-
       expect(question.answers.best.count).to eq 1
     end
 
     it 'best answer is first in list' do
-      expect(answer).to eq question.answers.first
-
-      best_answer = create(:answer, question: question, user: user, best: true)
-
+      best_answer.best!
       expect(best_answer).to eq question.answers.first
     end
   end
