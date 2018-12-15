@@ -1,6 +1,13 @@
 .question
-  .question-title = @question.title
-  .question-body = @question.body
+  .question-title
+    p= @question.title
+  .question-body
+    p= @question.body
+
+  - if @question.files.attached?
+    - @question.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
+
   .question-errors
 
   - if current_user&.author?(@question)
