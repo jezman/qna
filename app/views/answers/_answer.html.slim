@@ -3,10 +3,15 @@ div class = "answer-#{answer.id}"
   
   - if answer.best?
     .best_answer
-      h3= 'best answer:' 
+      h3= 'Best answer'
       p= answer.body
   - else 
     p= answer.body
+
+  - if answer.files.attached?
+    .attachments
+      - answer.files.each do |file|
+        = link_to file.filename.to_s, url_for(file)
 
   - if answer.persisted?
     - if current_user&.author?(answer)
@@ -24,12 +29,13 @@ div class = "answer-#{answer.id}"
         method: :patch,
         data: { answer_id: answer.id }
 
-    - if answer.files.attached?
-      - answer.files.each do |file|
-        p= link_to file.filename.to_s, url_for(file)
-
   = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = render 'shared/errors', resource: answer
-    = f.label :body, 'Your answer'
-    = f.text_area :body
-    = f.submit 'Save' 
+    p
+      = f.label :body, 'Your answer'
+      = f.text_area :body
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true
+    p
+      = f.submit 'Save'
