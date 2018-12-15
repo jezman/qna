@@ -6,29 +6,36 @@ feature 'User can create answer', %q{
   can write the answer to the question
 } do
 
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
 
-  scenario 'Authenticated user answer the question', js: true do
-    sign_in(user)
+  describe 'Authenticated user', js: true do
+    before { sign_in(user) }
+    before { visit question_path(question) }
 
-    visit question_path(question)
+    scenario 'answer the question' do
+      fill_in 'Body', with: 'answer body'
+      click_on 'Reply'
 
-    fill_in 'Body', with: 'answer body'
-    click_on 'Reply'
+      expect(page).to have_content 'Your answers successfully created.'
+      expect(page).to have_content 'answer body'
+    end
 
-    expect(page).to have_content 'Your answers successfully created.'
-    expect(page).to have_content 'answer body'
-  end
+    scenario 'answer the question with attach files' do
+      fill_in 'Body', with: 'answer body'
 
-  scenario 'Authenticated user answer the question with error', js: true do
-    sign_in(user)
+      attach_file 'File', ["#{Rails.root.join('spec/rails_helper.rb')}", "#{Rails.root.join('spec/spec_helper.rb').to_s}"]
+      click_on 'Reply'
 
-    visit question_path(question)
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
 
-    click_on 'Reply'
+    scenario 'answer the question with error' do
+      click_on 'Reply'
 
-    expect(page).to have_content "Body can't be blank"
+      expect(page).to have_content "Body can't be blank"
+    end
   end
 
   scenario 'Not authenticated user answer a question' do
