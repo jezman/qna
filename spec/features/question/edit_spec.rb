@@ -7,7 +7,6 @@ feature 'User can edit his question', %q{
 } do
 
   given!(:user) { create(:user) }
-  given!(:another_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
 
   scenario 'Unauthenticated can not edit question' do
@@ -16,13 +15,24 @@ feature 'User can edit his question', %q{
     expect(page).to_not have_link 'Edit question'
   end
 
-  describe 'Authenticated question' do
-    scenario 'edits his question', js: true do
-      sign_in user
+  scenario "tries to edit other user's question" do
+    another_user = create(:user)
+    sign_in(another_user)
+
+    visit question_path(question)
+
+    expect(page).to_not have_selector 'file'
+    expect(page).to_not have_link 'Edit question'
+  end
+
+  describe 'Authenticated question', js: true do
+    before { sign_in user }
+    before do
       visit question_path(question)
-
       click_on 'Edit question'
+    end
 
+    scenario 'edits his question' do
       within '.question' do
         fill_in 'Your title', with: 'Question title'
         fill_in 'Your body', with: 'Question body'
@@ -37,12 +47,21 @@ feature 'User can edit his question', %q{
       end
     end
 
-    scenario 'edits his question with errors', js: true do
-      sign_in user
-      visit question_path(question)
+    scenario 'edits his question with attach files', js: true do
+      within '.question' do
+        fill_in 'Your title', with: 'Question title'
+        fill_in 'Your body', with: 'Question body'
 
-      click_on 'Edit question'
+        attach_file 'File', ["#{Rails.root.join('spec/rails_helper.rb')}", "#{Rails.root.join('spec/spec_helper.rb').to_s}"]
+        click_on 'Save'
 
+        expect(page).to_not have_selector 'file'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario 'edits his question with errors' do
       within '.question' do
         fill_in 'Your title', with: ''
         fill_in 'Your body', with: ''
@@ -55,13 +74,6 @@ feature 'User can edit his question', %q{
         expect(page).to have_selector 'input'
         expect(page).to have_selector 'textarea'
       end
-    end
-
-    scenario "tries to edit other user's question" do
-      sign_in another_user
-      visit question_path(question)
-
-      expect(page).to_not have_link 'Edit question'
     end
   end
 end
