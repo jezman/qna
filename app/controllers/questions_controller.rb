@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :find_question, only: %i[show edit update destroy]
+  before_action :find_question, only: %i[show update destroy]
 
   def index
     @questions = Question.all
@@ -8,9 +8,6 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
-  end
-
-  def edit
   end
 
   def new
@@ -28,10 +25,10 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
+    if current_user.author?(@question)
+      @question.update(question_params)
     else
-      render :edit
+      render :show
     end
   end
 
