@@ -43,6 +43,8 @@ feature 'Best answer', %q{
         wait_for_ajax
       end
 
+      third_answer.reload
+
       expect(third_answer).to eq question.answers.first
     end
   end
