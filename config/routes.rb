@@ -4,8 +4,13 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :questions do
+    resources :attachments, shallow: true, only: :destroy
+
     resources :answers, shallow: true, except: %i[index show] do
-      patch :best, on: :member
+       member do
+         patch :best
+         # delete :delete_attachment
+       end
     end
   end
 end

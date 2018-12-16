@@ -25,7 +25,7 @@ feature 'User can edit his question', %q{
     expect(page).to_not have_link 'Edit question'
   end
 
-  describe 'Authenticated question', js: true do
+  describe 'Authenticated user', js: true do
     before { sign_in user }
     before do
       visit question_path(question)
@@ -47,7 +47,7 @@ feature 'User can edit his question', %q{
       end
     end
 
-    scenario 'edits his question with attach files', js: true do
+    scenario 'edits his question with attach files' do
       within '.question' do
         fill_in 'Your title', with: 'Question title'
         fill_in 'Your body', with: 'Question body'
