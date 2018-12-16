@@ -4,14 +4,8 @@ class AttachmentsController < ApplicationController
 
   def destroy
     case @attachment.record_type
-    when 'Question'
-      question = Question.find(@attachment.record_id)
-
-      if current_user.author?(question)
-        @attachment.purge
-      else
-        redirect_to question
-      end
+    when 'Question' then destroy!(Question.find(@attachment.record_id))
+    when 'Answer' then destroy!(Answer.find(@attachment.record_id))
     else redirect_to questions_path
     end
   end
@@ -20,5 +14,13 @@ class AttachmentsController < ApplicationController
 
   def find_attachment
     @attachment = ActiveStorage::Attachment.find(params[:id])
+  end
+
+  def destroy!(item)
+    if current_user.author?(item)
+      @attachment.purge
+    else
+      redirect_to item.is_a?(Question) ? item : item.question
+    end
   end
 end
