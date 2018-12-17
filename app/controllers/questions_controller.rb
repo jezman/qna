@@ -40,15 +40,6 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def delete_file
-    if current_user.author?(@question)
-      @file = @question.files.find(params[:id])
-      @file.purge
-    else
-      redirect_to @file.question
-    end
-  end
-
   private
 
   def find_question
