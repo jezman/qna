@@ -3,10 +3,20 @@ div class = "answer-#{answer.id}"
   
   - if answer.best?
     .best_answer
-      h3= 'best answer:' 
+      h3= 'Best answer'
       p= answer.body
   - else 
     p= answer.body
+
+  - if answer.files.attached?
+    - answer.files.each do |file|
+      div class = "attachment-#{file.id}"
+        = link_to file.filename.to_s, url_for(file)
+        - if current_user&.author?(answer)
+          = link_to 'remove', attachment_path(file),
+                  class: 'delete-attachment-link',
+                  remote: true,
+                  method: :delete
 
   - if answer.persisted?
     - if current_user&.author?(answer)
@@ -26,6 +36,11 @@ div class = "answer-#{answer.id}"
 
   = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = render 'shared/errors', resource: answer
-    = f.label :body, 'Your answer'
-    = f.text_area :body
-    = f.submit 'Save' 
+    p
+      = f.label :body, 'Your answer'
+      = f.text_area :body
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true
+    p
+      = f.submit 'Save'

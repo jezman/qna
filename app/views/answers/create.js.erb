@@ -1,8 +1,9 @@
+var flash = $('.flash')
 <% if @answer.errors.present? %>
   $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 <% else %>
   $('.answers').append('<%= j render @answer %>');
-  $('.flash').html('');
-  $('.flash').append('<%= flash_messages %>');
+  flash.html('');
+  flash.append('<%= flash_messages %>');
   $('textarea#answer_body').val('');
 <% end %>
