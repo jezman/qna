@@ -8,11 +8,18 @@ div class = "answer-#{answer.id}"
   - else 
     p= answer.body
 
-  .links
-    p Links:
-    ul
-      - answer.links.each do |link|
-        li= link_to link.name, link.url
+  - if answer.links.count != 0
+    .links
+      p Links:
+      ul
+        - answer.links.each do |link|
+          div class = "link-#{link.id}"
+            li= link_to link.name, link.url, target: :blank
+            - if current_user&.author?(answer)
+              = link_to 'remove', link_path(link),
+                      class: 'delete-link-link',
+                      remote: true,
+                      method: :delete
 
   - if answer.files.attached?
     - answer.files.each do |file|

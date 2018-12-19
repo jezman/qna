@@ -4,11 +4,18 @@
 .body
   p= question.body
 
-.links
-  p Links:
-  ul
-    - question.links.each do |link|
-      li= link_to link.name, link.url
+- if question.links.count != 0
+  .links
+    p Links:
+    ul
+      - question.links.each do |link|
+        div class = "link-#{link.id}"
+          li= link_to link.name, link.url, target: :blank
+          - if current_user&.author?(question)
+            = link_to 'remove', link_path(link),
+                    class: 'delete-link-link',
+                    remote: true,
+                    method: :delete
 
 - if question.files.attached?
   - question.files.each do |file|
