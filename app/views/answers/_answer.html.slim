@@ -8,6 +8,12 @@ div class = "answer-#{answer.id}"
   - else 
     p= answer.body
 
+  .links
+    p Links:
+    ul
+      - answer.links.each do |link|
+        li= link_to link.name, link.url
+
   - if answer.files.attached?
     - answer.files.each do |file|
       div class = "attachment-#{file.id}"
@@ -41,6 +47,6 @@ div class = "answer-#{answer.id}"
       = f.text_area :body
     p
       = f.label :files
-      = f.file_field :files, multiple: true, direct_upload: true
+      = f.file_field :files, multiple: true
     p
       = f.submit 'Save'
