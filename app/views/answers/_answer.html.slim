@@ -8,15 +8,14 @@ div class = "answer-#{answer.id}"
   - else 
     p= answer.body
 
+  - if answer.links.count != 0
+    .links
+      p Links:
+      ul
+        = render answer.links, resource: answer
+
   - if answer.files.attached?
-    - answer.files.each do |file|
-      div class = "attachment-#{file.id}"
-        = link_to file.filename.to_s, url_for(file)
-        - if current_user&.author?(answer)
-          = link_to 'remove', attachment_path(file),
-                  class: 'delete-attachment-link',
-                  remote: true,
-                  method: :delete
+    = render 'attachments/attachment', resource: answer
 
   - if answer.persisted?
     - if current_user&.author?(answer)
@@ -41,6 +40,11 @@ div class = "answer-#{answer.id}"
       = f.text_area :body
     p
       = f.label :files
-      = f.file_field :files, multiple: true, direct_upload: true
+      = f.file_field :files, multiple: true
+    p Links:
     p
+      = f.fields_for :links do |l|
+      .links
+        = link_to_add_association 'add link', f, :links
+      p
       = f.submit 'Save'

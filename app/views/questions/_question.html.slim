@@ -1,18 +1,17 @@
 .title
   p= question.title
+
 .body
   p= question.body
 
+- if question.links.count != 0
+  .links
+    p Links:
+    ul
+      = render question.links, resource: question
+
 - if question.files.attached?
-  - question.files.each do |file|
-    div class = "attachment-#{file.id}"
-      p
-        = link_to file.filename.to_s, url_for(file)
-        - if current_user&.author?(question)
-          = link_to 'remove', attachment_path(file),
-             class: 'delete-attachment-link',
-             remote: true,
-             method: :delete
+  = render 'attachments/attachment', resource: question
 
 .errors
 

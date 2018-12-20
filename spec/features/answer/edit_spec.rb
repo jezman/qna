@@ -57,6 +57,20 @@ feature 'User can edit his answer', %q{
       end
     end
 
+    scenario 'edits his answer by adding a link' do
+      within '.answers' do
+        click_on 'add link'
+
+        fill_in 'Link name', with: 'Thinknetica'
+        fill_in 'Url', with: "http://thinknetica.com"
+
+        click_on 'Save'
+
+        expect(page).to have_link 'Thinknetica', href: "http://thinknetica.com"
+        expect(page).to_not have_selector 'textfield'
+      end
+    end
+
     scenario 'edits his answer with errors' do
       within '.answers' do
         fill_in 'Your answer', with: ''
