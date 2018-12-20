@@ -7,7 +7,7 @@ feature 'User can add links to question', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:gist_url) { 'https://gist.github.com/jezman/a6c9a6c93f651b8b84ac6e08303e82ed' }
+  given(:some_url) { 'https://ya.ru' }
 
   scenario 'User adds link when asks question' do
     sign_in(user)
@@ -17,10 +17,10 @@ feature 'User can add links to question', %q{
     fill_in 'Body', with: 'text text text'
 
     fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+    fill_in 'Url', with: some_url
 
     click_on 'Ask'
 
-    expect(page).to have_link 'My gist', href: gist_url
+    expect(page).to have_link 'My gist', href: some_url
   end
 end
