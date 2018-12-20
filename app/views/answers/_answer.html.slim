@@ -12,28 +12,10 @@ div class = "answer-#{answer.id}"
     .links
       p Links:
       ul
-        - answer.links.each do |link|
-          div class = "link-#{link.id}"
-            - if link.gist?
-              = link.gist_content
-            - else
-              li= link_to link.name, link.url, target: :blank
-
-            - if current_user&.author?(answer)
-              = link_to 'remove', link_path(link),
-                      class: 'delete-link-link',
-                      remote: true,
-                      method: :delete
+        = render answer.links, resource: answer
 
   - if answer.files.attached?
-    - answer.files.each do |file|
-      div class = "attachment-#{file.id}"
-        = link_to file.filename.to_s, url_for(file)
-        - if current_user&.author?(answer)
-          = link_to 'remove', attachment_path(file),
-                  class: 'delete-attachment-link',
-                  remote: true,
-                  method: :delete
+    = render 'attachments/attachment', resource: answer
 
   - if answer.persisted?
     - if current_user&.author?(answer)
