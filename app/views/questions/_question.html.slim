@@ -10,7 +10,11 @@
     ul
       - question.links.each do |link|
         div class = "link-#{link.id}"
-          li= link_to link.name, link.url, target: :blank
+          - if link.gist?
+            = link.gist_content
+          - else
+            li= link_to link.name, link.url, target: :blank
+
           - if current_user&.author?(question)
             = link_to 'remove', link_path(link),
                     class: 'delete-link-link',
