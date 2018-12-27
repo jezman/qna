@@ -18,7 +18,7 @@ feature 'User can remove his answer attachments', %q{
       visit question_path(question)
       fill_in 'Body', with: 'answer body'
 
-      attach_file 'File', ["#{Rails.root.join('spec/rails_helper.rb')}", "#{Rails.root.join('spec/spec_helper.rb').to_s}"]
+      attach_files
       click_on 'Reply'
     end
 
