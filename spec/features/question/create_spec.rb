@@ -25,7 +25,7 @@ feature 'User can create question', %q{
       expect(page).to have_content user.questions.last.body
     end
 
-    scenario 'asc question with attach files' do
+    scenario 'ask question with attach files' do
       fill_in 'Title', with: 'Question title'
       fill_in 'Body', with: 'Question body'
 
@@ -34,6 +34,19 @@ feature 'User can create question', %q{
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'ask question with badge' do
+      fill_in 'Title', with: 'Question title'
+      fill_in 'Body', with: 'Question body'
+
+      fill_in 'Badge title', with: 'Very best answer'
+      fill_in 'Image', with: Rails.root.join('app/assets/images/badges/default.png').to_s
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Very best answer'
+      expect(page).to have_css("img[src*='default.png']")
     end
 
     scenario 'asks a question with errors' do
