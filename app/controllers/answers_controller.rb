@@ -29,7 +29,12 @@ class AnswersController < ApplicationController
   end
 
   def best
-    @answer.best! if current_user.author?(@answer.question)
+    if current_user.author?(@answer.question)
+      @answer.best!
+      @answer.user.award_badge!(@answer.question.badge) if @answer.question.badge.present?
+    else
+      redirect_to @answer.question
+    end
   end
 
   private
