@@ -13,6 +13,6 @@ class User < ApplicationRecord
   end
 
   def award_badge!(badge)
-    badges.push(badge)
+    badges << badge
   end
 end

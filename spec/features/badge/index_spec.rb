@@ -7,7 +7,10 @@ feature 'The user can view the rewards he received' do
   given(:badges) { create_list(:badge, 3, question: question) }
 
   before do
-    badges.each { |badge| user.award_badge!(badge) }
+    badges.each do |badge|
+      user.award_badge!(badge)
+      add_image_to(badge)
+    end
   end
 
   before { sign_in(user) }
@@ -21,7 +24,7 @@ feature 'The user can view the rewards he received' do
 
     user.badges.each do |badge|
       expect(page).to have_content badge.question.title
-      expect(page).to have_css("img[src*='#{badge.image.split('/').last}']")
+      expect(page).to have_css("img[src*='#{badge.image.filename}']")
       expect(page).to have_content badge.title
     end
   end

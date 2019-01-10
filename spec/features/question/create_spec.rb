@@ -41,7 +41,7 @@ feature 'User can create question', %q{
       fill_in 'Body', with: 'Question body'
 
       fill_in 'Badge title', with: 'Very best answer'
-      fill_in 'Image', with: Rails.root.join('app/assets/images/badges/default.png').to_s
+      attach_file 'Image', Rails.root.join('app/assets/images/badges/default.png').to_s
 
       click_on 'Ask'
 
