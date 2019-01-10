@@ -5,12 +5,13 @@ Rails.application.routes.draw do
 
   resources :questions do
     resources :answers, shallow: true, except: %i[index show] do
-       member do
-         patch :best
-       end
+      member do
+        patch :best
+      end
     end
   end
 
   resources :attachments, only: :destroy
   resources :links, only: :destroy
+  resources :badges, only: :index
 end
