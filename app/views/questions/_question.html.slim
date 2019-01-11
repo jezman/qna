@@ -4,6 +4,12 @@
 .body
   p= question.body
 
+- if question.badge.present?
+  .badge
+    p Badge:
+    = image_tag question.badge.image, title: question.badge.title, size: "50x50"
+    p = question.badge.title
+
 - if question.links.count != 0
   .links
     p Links:

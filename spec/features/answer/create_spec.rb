@@ -24,7 +24,7 @@ feature 'User can create answer', %q{
     scenario 'answer the question with attach files' do
       fill_in 'Body', with: 'answer body'
 
-      attach_file 'File', ["#{Rails.root.join('spec/rails_helper.rb')}", "#{Rails.root.join('spec/spec_helper.rb').to_s}"]
+      attach_files
       click_on 'Reply'
 
       expect(page).to have_link 'rails_helper.rb'
