@@ -9,6 +9,10 @@ module Likable
     likes.create!(user: user, rating: 1)
   end
 
+  def vote_down(user)
+    likes.create!(user: user, rating: -1)
+  end
+
   def rating_sum
     likes.sum(:rating)
   end

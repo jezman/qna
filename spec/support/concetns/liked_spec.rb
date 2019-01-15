@@ -13,6 +13,10 @@ RSpec.shared_examples 'liked' do
       it 'try to add new like' do
         expect { post :vote_up, params: { id: user_likable } }.to change(Like, :count)
       end
+
+      it 'try to add new dislike' do
+        expect { post :vote_down, params: { id: user_likable } }.to change(Like, :count)
+      end
     end
   end
 end

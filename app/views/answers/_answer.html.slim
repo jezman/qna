@@ -1,6 +1,9 @@
 div class = "answer-#{answer.id}"
   div class = "answer-#{answer.id}-errors"
-  
+
+  .vote
+    = render 'shared/vote', resource: answer
+
   - if answer.best?
     .best_answer
       h3= 'Best answer'

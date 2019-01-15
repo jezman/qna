@@ -2,11 +2,16 @@ module Liked
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_likable, only: :vote_up
+    before_action :set_likable, only: %i[vote_up vote_down]
   end
 
   def vote_up
     @likable.vote_up(current_user)
+    render_json
+  end
+
+  def vote_down
+    @likable.vote_down(current_user)
     render_json
   end
 

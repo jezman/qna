@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   concern :likable do
     member do
-      post :vote_up
+      post :vote_up, :vote_down
+      # post :vote_down
     end
   end
 
