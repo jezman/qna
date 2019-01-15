@@ -4,6 +4,7 @@ RSpec.shared_examples_for 'likable' do
   let(:model) { described_class }
   let(:author) { create(:user) }
   let(:liker) { create(:user) }
+  let(:second_liker) { create(:user) }
 
   let(:likable) do
     if model.to_s == 'Answer'
@@ -26,6 +27,12 @@ RSpec.shared_examples_for 'likable' do
     expect(Like.last.rating).to eq -1
     expect(Like.last.user).to eq liker
     expect(Like.last.likable).to eq likable
+  end
+
+  it '#rating_sum' do
+    likable.vote_up(liker)
+    likable.vote_up(second_liker)
+    expect(likable.rating_sum).to eq 2
   end
 
   describe '#liked?' do
