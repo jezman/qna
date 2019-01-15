@@ -6,11 +6,11 @@ module Likable
   end
 
   def vote_up(user)
-    likes.create!(user: user, rating: 1)
+    likes.create!(user: user, rating: 1) unless liked?(user)
   end
 
   def vote_down(user)
-    likes.create!(user: user, rating: -1)
+    likes.create!(user: user, rating: -1) unless liked?(user)
   end
 
   def rating_sum

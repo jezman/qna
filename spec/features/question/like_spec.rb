@@ -27,6 +27,15 @@ feature 'User can vote for a question', %q{
       end
     end
 
+    scenario 'can vote only once' do
+      within '.vote' do
+        click_on '+'
+        click_on '-'
+        click_on '-'
+        expect(page).to have_content '1'
+      end
+    end
+
     scenario "can't vote for self question" do
       click_on 'Log out'
       sign_in(author)
