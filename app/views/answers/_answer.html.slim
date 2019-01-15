@@ -1,8 +1,9 @@
 div class = "answer-#{answer.id}"
   div class = "answer-#{answer.id}-errors"
 
-  .vote
-    = render 'shared/vote', resource: answer
+  - unless current_user&.author?(answer)
+    .vote
+      = render 'shared/vote', resource: answer
 
   - if answer.best?
     .best_answer

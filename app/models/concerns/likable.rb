@@ -16,4 +16,8 @@ module Likable
   def rating_sum
     likes.sum(:rating)
   end
+
+  def liked?(user)
+    likes.exists?(user: user)
+  end
 end

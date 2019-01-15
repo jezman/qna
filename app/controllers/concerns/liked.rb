@@ -6,13 +6,17 @@ module Liked
   end
 
   def vote_up
-    @likable.vote_up(current_user)
-    render_json
+    unless current_user.author?(@likable)
+      @likable.vote_up(current_user)
+      render_json
+    end
   end
 
   def vote_down
-    @likable.vote_down(current_user)
-    render_json
+    unless current_user.author?(@likable)
+      @likable.vote_down(current_user)
+      render_json
+    end
   end
 
   private

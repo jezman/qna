@@ -1,8 +1,9 @@
 .title
   p= question.title
 
-.vote
-  = render 'shared/vote', resource: question
+  - unless current_user&.author?(question)
+    .vote
+      = render 'shared/vote', resource: question
 
 .body
   p= question.body
