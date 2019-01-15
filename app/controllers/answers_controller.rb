@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Liked
+
   before_action :authenticate_user!
   before_action :find_question, only: :create
   before_action :find_answer, only: %i[update destroy best]

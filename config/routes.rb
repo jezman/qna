@@ -3,8 +3,14 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :questions do
-    resources :answers, shallow: true, except: %i[index show] do
+  concern :likable do
+    member do
+      post :vote_up
+    end
+  end
+
+  resources :questions, concerns: :likable do
+    resources :answers, concerns: :likable, shallow: true, except: %i[index show] do
       member do
         patch :best
       end

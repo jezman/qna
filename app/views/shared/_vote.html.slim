@@ -1,0 +1,6 @@
+div class = "rate #{resource.class}-#{resource.id}"
+  span.rating
+    =  "rating: #{resource.rating_sum}"
+  
+  span.voting
+    = link_to '+', polymorphic_path(resource, action: :vote_up), method: :post, remote: true, data: { type: :json }
