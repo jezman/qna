@@ -36,6 +36,16 @@ feature 'User can vote for a question', %q{
       end
     end
 
+    scenario 'can revote' do
+      within '.vote' do
+        click_on '+'
+        expect(page).to have_link 'revoke'
+
+        click_on 'revoke'
+        expect(page).to_not have_link 'revoke'
+      end
+    end
+
     scenario "can't vote for self question" do
       click_on 'Log out'
       sign_in(author)

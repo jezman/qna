@@ -46,5 +46,15 @@ feature 'User can vote for a answer', %q{
         expect(page).to_not have_css '.vote'
       end
     end
+
+    scenario 'can revote' do
+      within ".answer-#{answer.id}" do
+        click_on '+'
+        expect(page).to have_link 'revoke'
+
+        click_on 'revoke'
+        expect(page).to_not have_link 'revoke'
+      end
+    end
   end
 end
