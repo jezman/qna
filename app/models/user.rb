@@ -16,4 +16,8 @@ class User < ApplicationRecord
   def award_badge!(badge)
     badges << badge
   end
+
+  def liked?(item_id)
+    likes.exists?(likable_id: item_id)
+  end
 end

@@ -30,9 +30,8 @@ feature 'User can vote for a question', %q{
     scenario 'can vote only once' do
       within '.vote' do
         click_on '+'
-        click_on '-'
-        click_on '-'
-        expect(page).to have_content '1'
+        expect(page).to_not have_link '+'
+        expect(page).to_not have_link '-'
       end
     end
 
@@ -42,6 +41,7 @@ feature 'User can vote for a question', %q{
         expect(page).to have_link 'revoke'
 
         click_on 'revoke'
+        expect(page).to have_content '0'
         expect(page).to_not have_link 'revoke'
       end
     end
@@ -50,7 +50,8 @@ feature 'User can vote for a question', %q{
       click_on 'Log out'
       sign_in(author)
 
-      expect(page).to_not have_css '.vote'
+      expect(page).to_not have_link '+'
+      expect(page).to_not have_link '-'
     end
   end
 end

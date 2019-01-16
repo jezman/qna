@@ -27,7 +27,7 @@ module Liked
   private
 
   def render_json
-    render json: { rating: @likable.likes.pluck(:rating).sum, klass: @likable.class.to_s, id: @likable.id }
+    render json: { rating: @likable.rating_sum, klass: @likable.class.to_s, id: @likable.id }
   end
 
   def model_klass

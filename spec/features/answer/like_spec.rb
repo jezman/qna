@@ -31,9 +31,8 @@ feature 'User can vote for a answer', %q{
     scenario 'can vote only once' do
       within ".answer-#{answer.id}" do
         click_on '+'
-        click_on '-'
-        click_on '-'
-        expect(page).to have_content '1'
+        expect(page).to_not have_link '+'
+        expect(page).to_not have_link '-'
       end
     end
 
@@ -43,7 +42,8 @@ feature 'User can vote for a answer', %q{
       visit question_path(question)
 
       within ".answer-#{answer.id}" do
-        expect(page).to_not have_css '.vote'
+        expect(page).to_not have_link '+'
+        expect(page).to_not have_link '-'
       end
     end
 
