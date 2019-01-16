@@ -45,11 +45,11 @@ RSpec.describe User, type: :model do
     before { question.vote_up(liker) }
 
     it 'user already liked the resource' do
-      expect(liker).to be_liked(question.id)
+      expect(liker).to be_liked(question)
     end
 
     it 'user has not liked the resource' do
-      expect(user).to_not be_liked(question.id)
+      expect(user).to_not be_liked(question)
     end
   end
 end

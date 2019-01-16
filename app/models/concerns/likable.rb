@@ -6,14 +6,20 @@ module Likable
   end
 
   def vote_up(user)
-    likes.create!(user: user, rating: 1) unless user.liked?(id)
+    vote(user, 1)
   end
 
   def vote_down(user)
-    likes.create!(user: user, rating: -1) unless user.liked?(id)
+    vote(user, -1)
   end
 
   def rating_sum
     likes.sum(:rating)
+  end
+
+  private
+
+  def vote(user, rate)
+    likes.create!(user: user, rating: rate) unless user.liked?(self)
   end
 end
