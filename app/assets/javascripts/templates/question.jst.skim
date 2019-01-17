@@ -1,0 +1,1 @@
+a.question-link href="/questions/#{@question.id}" = @question.title

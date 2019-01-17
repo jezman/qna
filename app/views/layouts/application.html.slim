@@ -3,7 +3,9 @@ html
   head
     title Qna
     
+    = Gon::Base.render_data
     = csrf_meta_tags
+    = action_cable_meta_tag
     = csp_meta_tag
 
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'

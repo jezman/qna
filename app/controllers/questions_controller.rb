@@ -3,8 +3,12 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[show update destroy delete_file]
+
+  after_action :publish_question, only: :create
+
   def index
     @questions = Question.all
+    gon.current_user = current_user
   end
 
   def show
@@ -49,6 +53,15 @@ class QuestionsController < ApplicationController
 
   def find_question
     @question = Question.with_attached_files.find(params[:id])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast(
+      'questions',
+      @question.to_json(include: :user)
+    )
   end
 
   def question_params
