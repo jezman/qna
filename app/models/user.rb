@@ -18,6 +18,6 @@ class User < ApplicationRecord
   end
 
   def liked?(item)
-    likes.exists?(likable_type: item.class.to_s, likable_id: item.id)
+    likes.exists?(likable: item)
   end
 end
