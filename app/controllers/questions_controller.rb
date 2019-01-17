@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Liked
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[show update destroy delete_file]
   def index

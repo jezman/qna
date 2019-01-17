@@ -1,6 +1,8 @@
 class Answer < ApplicationRecord
   MAX_BEST_ANSWERS_COUNT = 1
 
+  include Likable
+
   belongs_to :question
   belongs_to :user
   has_many_attached :files
