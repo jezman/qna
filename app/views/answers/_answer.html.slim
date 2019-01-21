@@ -37,6 +37,14 @@ div class = "answer-#{answer.id}"
         method: :patch,
         data: { answer_id: answer.id }
 
+    - if current_user
+      = link_to 'New comment', '#', class: 'new-comment-link', data: { klass: answer.class.to_s.downcase, id: answer.id }
+      = render 'comments/form', resource: answer
+
+  .comments
+    p Comments:
+    = render answer.comments
+
   = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = render 'shared/errors', resource: answer
     p

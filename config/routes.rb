@@ -10,8 +10,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: :likable do
-    resources :answers, concerns: :likable, shallow: true, except: %i[index show] do
+  concern :commentable do
+    resources :comments, shallow: true
+  end
+
+  resources :questions, concerns: %i[likable commentable] do
+    resources :answers, concerns: %i[likable commentable], shallow: true, except: %i[index show] do
       member do
         patch :best
       end

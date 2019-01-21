@@ -1,6 +1,7 @@
 class Answer < ApplicationRecord
   MAX_BEST_ANSWERS_COUNT = 1
 
+  include Commentable
   include Likable
 
   belongs_to :question

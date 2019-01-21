@@ -30,3 +30,11 @@
   = link_to 'Remove question', question_path(question), method: :delete
   = render 'form'
 
+- if current_user
+  = link_to 'New comment', '#', class: 'new-comment-link', data: { klass: question.class.to_s.downcase, id: question.id }
+  = render 'comments/form', resource: question
+
+
+.comments
+  p Comments:
+  = render question.comments

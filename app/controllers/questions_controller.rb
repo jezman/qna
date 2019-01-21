@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[show update destroy delete_file]
   before_action :current_user_to_gon, only: %i[index show]
+  before_action :init_comment, only: %i[show update]
 
   after_action :publish_question, only: :create
 
@@ -76,5 +77,9 @@ class QuestionsController < ApplicationController
       links_attributes: [:name, :url],
       badge_attributes: [:title, :image]
     )
+  end
+
+  def init_comment
+    @comment = Comment.new
   end
 end

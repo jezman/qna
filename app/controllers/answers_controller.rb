@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: :create
   before_action :find_answer, only: %i[update destroy best]
+  before_action :init_comment, only: %i[create update best]
 
   after_action :publish_answer, only: :create
 
@@ -64,5 +65,9 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url])
+  end
+
+  def init_comment
+    @comment = Comment.new
   end
 end
