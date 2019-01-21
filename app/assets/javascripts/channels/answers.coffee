@@ -1,13 +1,12 @@
 $ ->
   questionId = $(".question").data("id")
   
-  App.cable.subscriptions.create({ channel: 'AnswersChannel', id: questionId }, {
+  App.cable.subscriptions.create({ channel: 'AnswersChannel', question_id: questionId }, {
     connected: ->
       @perform 'follow'
     ,
     received: (data) ->
       parseData = $.parseJSON(data)
-      console.log(parseData.answer.body)
 
       if gon.current_user && (gon.current_user.id != parseData.user.id)
         $('.answers').append(JST['templates/answer']({
