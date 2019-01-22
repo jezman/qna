@@ -1,5 +1,6 @@
-.question
-  = render @question
+div class = "question-#{@question.id}"
+  .question data-id = "#{@question.id}"
+    = render @question
 
 .answers
   = render @question.answers

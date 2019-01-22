@@ -36,6 +36,44 @@ feature 'User can create answer', %q{
 
       expect(page).to have_content "Body can't be blank"
     end
+
+    context 'mulitple sessions', js: true do
+      given(:some_url) { 'https://ya.ru' }
+
+      scenario "question appears on another user's page" do
+        Capybara.using_session('second_user') do
+          second_user = create(:user)
+
+          sign_in(second_user)
+          visit question_path(question)
+        end
+
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit question_path(question)
+
+          fill_in 'Body', with: 'answer body'
+
+          attach_files
+
+          fill_in 'Link name', with: 'My link'
+          fill_in 'Url', with: some_url
+
+          click_on 'Reply'
+
+          expect(page).to have_content 'answer body'
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
+
+        Capybara.using_session('second_user') do
+          expect(page).to have_content 'answer body'
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+          expect(page).to have_link 'My link', href: some_url
+        end
+      end
+    end
   end
 
   scenario 'Not authenticated user answer a question' do

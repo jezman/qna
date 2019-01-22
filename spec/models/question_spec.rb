@@ -14,6 +14,7 @@ RSpec.describe Question, type: :model do
   it { should accept_nested_attributes_for :badge }
 
   it_behaves_like 'likable'
+  it_behaves_like 'commentable'
 
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
