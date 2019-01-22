@@ -55,7 +55,6 @@ class AnswersController < ApplicationController
     ActionCable.server.broadcast(
       "question_#{@answer.question_id}_answers", {
         answer: @answer,
-        user: current_user,
         files: files,
         links: @answer.links,
         rating: @answer.rating_sum

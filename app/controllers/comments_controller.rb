@@ -25,8 +25,6 @@ class CommentsController < ApplicationController
     ActionCable.server.broadcast(
       "question_#{question_id}_comments", {
         comment: @comment,
-        user: current_user,
-        resource: @klass.to_s.downcase,
         user_email: @comment.user.email,
         id: @resource.id
       }.to_json
