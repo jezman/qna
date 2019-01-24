@@ -1,4 +1,6 @@
 module FeatureHelpers
+  OmniAuth.config.test_mode = true
+
   def sign_in(user)
     visit new_user_session_path
 
@@ -26,5 +28,13 @@ module FeatureHelpers
       Rails.root.join('spec/rails_helper.rb'),
       Rails.root.join('spec/spec_helper.rb')
     ].map(&:to_s)
+  end
+
+  def mock_auth_hash(provider, email = nil)
+    OmniAuth.config.mock_auth[provider] = OmniAuth::AuthHash.new(
+      provider: provider.to_s,
+      uid: '111111',
+      info: { email: email }
+    )
   end
 end
