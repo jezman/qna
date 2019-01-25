@@ -48,19 +48,17 @@ RSpec.describe OauthCallbacksController, type: :controller do
     end
 
     context 'user with temp email' do
-      let!(:user) { create(:user, email: User::TEMPORARY_EMAIL) }
-
       before do
-        mock_oauth(:github, User::TEMPORARY_EMAIL)
+        mock_oauth(:github)
         get :github
       end
 
       it 'login user' do
-        expect(subject.current_user).to eq user
+        expect(subject.current_user).to eq User.last
       end
 
       it 'redirects to set email path' do
-        expect(response).to redirect_to set_email_user_path(user)
+        expect(response).to redirect_to set_email_user_path(User.last)
       end
     end
 
@@ -125,19 +123,17 @@ RSpec.describe OauthCallbacksController, type: :controller do
     end
 
     context 'user with temp email' do
-      let!(:user) { create(:user, email: User::TEMPORARY_EMAIL) }
-
       before do
-        mock_oauth(:vkontakte, User::TEMPORARY_EMAIL)
+        mock_oauth(:vkontakte)
         get :vkontakte
       end
 
       it 'login user' do
-        expect(subject.current_user).to eq user
+        expect(subject.current_user).to eq User.last
       end
 
       it 'redirects to set email path' do
-        expect(response).to redirect_to set_email_user_path(user)
+        expect(response).to redirect_to set_email_user_path(User.last)
       end
     end
 
