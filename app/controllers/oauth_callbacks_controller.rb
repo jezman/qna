@@ -17,7 +17,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def sign_in_user
-    unless @user.email_temporary?
+    if @user.email_temporary?
       sign_in @user
       redirect_to set_email_user_path(current_user)
     else

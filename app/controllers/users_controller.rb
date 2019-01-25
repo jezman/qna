@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   def confirm_email
-    if current_user.update_attribute('email', params[:user][:email])
+    if current_user.update(email: params[:user][:email])
       redirect_to set_email_user_path(current_user)
       flash[:notice] = 'Please check your mailbox'
     else
