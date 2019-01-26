@@ -42,6 +42,9 @@ gem "cocoon"
 gem "octokit", "~> 4.0"
 gem "skim"
 gem "gon"
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-vkontakte'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -58,6 +61,8 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'aws-sdk'
+  gem 'capybara-email'
+  gem 'letter_opener'
 end
 
 group :test do

@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
   root to: 'questions#index'
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+
+  resources :users do
+    member do
+      get :set_email
+      patch :confirm_email
+    end
+  end
 
   concern :likable do
     member do

@@ -11,8 +11,10 @@ feature 'User can sign up' do
     fill_in 'Password confirmation', with: 'userpassword'
     click_button 'Sign up'
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
-    expect(current_path).to eq root_path
+    open_email('user@domain.com')
+    current_email.click_link 'Confirm my account'
+    expect(page).to have_content 'Your email address has been successfully confirmed.'
+    expect(current_path).to eq new_user_session_path
   end
 
   scenario 'Sign up with error(blank fields)' do
