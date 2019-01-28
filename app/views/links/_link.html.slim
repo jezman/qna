@@ -4,7 +4,7 @@ div class = "link-#{link.id}"
   - else
     li= link_to link.name, link.url, target: :blank
 
-  - if current_user&.author?(resource)
+  - if can?(:destroy, resource)
     = link_to 'remove', link_path(link),
             class: 'delete-link-link',
             remote: true,
