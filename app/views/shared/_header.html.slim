@@ -3,6 +3,8 @@
   = current_user.email
   = link_to 'Log out', destroy_user_session_path, method: :delete
   = link_to 'My badges', badges_path 
+  - if Rails.env.development?
+    = link_to 'Doorkeeper', oauth_applications_path 
 - else
   = link_to 'Sign in', new_user_session_path
   = link_to 'Sign up', new_user_registration_path
