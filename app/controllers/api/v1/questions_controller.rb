@@ -1,5 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
   before_action :current_resource_owner, only: :create
+  before_action :find_question, only: %i[show update]
+
   authorize_resource Question
 
   def index
@@ -8,7 +10,6 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def show
-    @question = Question.find(params[:id])
     render json: @question, serializer: QuestionShowSerializer
   end
 
@@ -27,7 +28,24 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     end
   end
 
+  def update
+    if @question.update(question_params)
+      render json: 'your question successfully updated'
+    else
+      payload = {
+        error: 'invalid params',
+        status: 400
+      }
+
+      render json: payload, status: :bad_request
+    end
+  end
+
   private
+
+  def find_question
+    @question = Question.find(params[:id])
+  end
 
   def question_params
     params.require(:question).permit(:title, :body)
