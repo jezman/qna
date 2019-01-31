@@ -1,4 +1,6 @@
 shared_examples_for 'API files' do
+  include Rails.application.routes.url_helpers
+
   context 'files' do
     let(:file) { item.files.first.blob }
     let(:files_response) { object_response['files'] }
@@ -14,6 +16,8 @@ shared_examples_for 'API files' do
       end
     end
 
-    it 'contains link to file'
+    it 'contains link to file' do
+      expect(file_response['file_url']).to eq rails_blob_path(file, host: 'http://127.0.0.1:3000').as_json
+    end
   end
 end
