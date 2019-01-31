@@ -1,7 +1,7 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   before_action :current_resource_owner, only: :create
   before_action :find_question, only: %i[index create]
-  before_action :find_answer, only: %i[show update]
+  before_action :find_answer, only: %i[show update destroy]
 
   authorize_resource Answer
 
@@ -40,6 +40,10 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
       render json: payload, status: :bad_request
     end
+  end
+
+  def destroy
+    @answer.destroy
   end
 
   private
