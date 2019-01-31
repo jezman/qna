@@ -44,11 +44,13 @@ describe 'Question API', type: :request do
         let(:send_bad_request) { patch update_path, params: { id: question, question: attributes_for(:question, :invalid_question), access_token: access_token.token } }
 
         it 'does not update question' do
+          title = question.title
+          body = question.body
           send_bad_request
           question.reload
 
-          expect(question.title).to eq 'Title 1'
-          expect(question.body).to eq 'Body 1'
+          expect(question.title).to eq title
+          expect(question.body).to eq body
         end
 
         it 'does not create question' do
