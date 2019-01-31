@@ -24,9 +24,7 @@ describe 'Answers API', type: :request do
 
       before { get "/api/v1/questions/#{question.id}/answers", params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'response success'
 
       it 'returns list of questions' do
         expect(answers_response.size).to eq answers.size
