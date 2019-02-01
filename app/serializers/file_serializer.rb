@@ -12,6 +12,13 @@ class FileSerializer < ActiveModel::Serializer
   end
 
   def file_url
-    rails_blob_path(object, host: 'http://127.0.0.1:3000')
+    rails_blob_path(object, host: host_with_port)
+  end
+
+  private
+
+  def host_with_port
+    url_opt = Rails.application.routes.default_url_options
+    "#{url_opt[:host]}#{url_opt[:port]}"
   end
 end
