@@ -19,7 +19,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
     if @answer.save
       render json: @answer, serializer: AnswerShowSerializer
     else
-      render json: { erroe: 'invalid params' }, status: 422
+      render json: { errors: @answer.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -27,7 +27,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
     if @answer.update(answer_params)
       render json: @answer, serializer: AnswerShowSerializer
     else
-      render json: { erroe: 'invalid params' }, status: 422
+      render json: { errors: @answer.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

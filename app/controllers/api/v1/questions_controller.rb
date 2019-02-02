@@ -18,7 +18,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     if @question.save
       render json: @question, serializer: QuestionShowSerializer
     else
-      render json: { erroe: 'invalid params' }, status: 422
+      render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -26,7 +26,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     if @question.update(question_params)
       render json: @question, serializer: QuestionShowSerializer
     else
-      render json: { erroe: 'invalid params' }, status: 422
+      render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
