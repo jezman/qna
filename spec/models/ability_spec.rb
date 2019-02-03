@@ -53,36 +53,52 @@ describe Ability, type: :model do
 
     it { should be_able_to :read, :all }
 
-    it { should be_able_to :create, Question }
-    it { should be_able_to :create, Answer }
-    it { should be_able_to :create, Comment }
+    context 'Question' do
+      it { should be_able_to :create, Question }
+      it { should be_able_to :update, question }
+      it { should_not be_able_to :update, question_other }
+      it { should be_able_to :destroy, question }
+      it { should_not be_able_to :destroy, question_other }
 
-    it { should be_able_to :update, question }
-    it { should be_able_to :update, answer }
-    it { should be_able_to :update, comment }
-    it { should_not be_able_to :update, question_other }
-    it { should_not be_able_to :update, answer_other }
-    it { should_not be_able_to :update, comment_other }
+      it { should be_able_to [:vote_up, :vote_down], question_other }
+      it { should_not be_able_to [:vote_up, :vote_down], question }
+      it { should be_able_to :revoke, question }
+      it { should_not be_able_to :revoke, question_other }
+    end
 
-    it { should be_able_to :destroy, question }
-    it { should be_able_to :destroy, answer }
-    it { should be_able_to :destroy, link }
-    it { should be_able_to :destroy, question.files.last }
-    it { should_not be_able_to :destroy, question_other }
-    it { should_not be_able_to :destroy, answer_other }
-    it { should_not be_able_to :destroy, link_other }
-    it { should_not be_able_to :destroy, question_other.files.last }
+    context 'Answer' do
+      it { should be_able_to :create, Answer }
+      it { should be_able_to :update, answer }
+      it { should_not be_able_to :update, answer_other }
+      it { should be_able_to :destroy, answer }
+      it { should_not be_able_to :destroy, answer_other }
+      it { should be_able_to :best, answer }
+      it { should_not be_able_to :best, answer_other }
 
-    it { should be_able_to [:vote_up, :vote_down], question_other }
-    it { should be_able_to [:vote_up, :vote_down], answer_other }
-    it { should be_able_to :revoke, question }
-    it { should be_able_to :revoke, answer_other }
-    it { should_not be_able_to [:vote_up, :vote_down], question }
-    it { should_not be_able_to [:vote_up, :vote_down], answer }
-    it { should_not be_able_to :revoke, question_other }
-    it { should_not be_able_to :revoke, answer }
+      it { should be_able_to [:vote_up, :vote_down], answer_other }
+      it { should_not be_able_to [:vote_up, :vote_down], answer }
+      it { should_not be_able_to :revoke, answer }
+      it { should be_able_to :revoke, answer_other }
+    end
 
-    it { should be_able_to :best, answer }
-    it { should_not be_able_to :best, answer_other }
+    context 'Comment' do
+      it { should be_able_to :create, Comment }
+      it { should be_able_to :update, comment }
+      it { should_not be_able_to :update, comment_other }
+    end
+
+    context 'Link' do
+      it { should be_able_to :destroy, link }
+      it { should_not be_able_to :destroy, link_other }
+    end
+
+    context 'Attachment' do
+      it { should be_able_to :destroy, question.files.last }
+      it { should_not be_able_to :destroy, question_other.files.last }
+    end
+
+    context 'User' do
+      it { should be_able_to :me, User }
+    end
   end
 end

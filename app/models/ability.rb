@@ -44,5 +44,7 @@ class Ability
     can :revoke, [Question, Answer] do |resource|
       resource.likes.find_by(user_id: user.id)
     end
+
+    can :me, User, id: user.id
   end
 end
