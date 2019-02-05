@@ -100,5 +100,9 @@ describe Ability, type: :model do
     context 'User' do
       it { should be_able_to :me, User }
     end
+
+    context 'Subscription' do
+      it { should be_able_to :create, Subscription }
+    end
   end
 end

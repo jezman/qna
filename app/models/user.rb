@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :badges
   has_many :likes
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

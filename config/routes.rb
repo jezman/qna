@@ -34,6 +34,8 @@ Rails.application.routes.draw do
         patch :best
       end
     end
+
+    resources :subscriptions, only: [:create]
   end
 
   resources :attachments, only: :destroy

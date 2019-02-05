@@ -3,6 +3,14 @@
 
   .vote
     = render 'shared/vote', resource: question
+  
+  .subscribe
+  - if question.subscribed?(current_user)
+      = link_to 'Subscribe',
+        question_subscriptions_path(question),
+        method: :post,
+        class: 'subscribe-question-link',
+        remote: true
 
 .body
   p= question.body
