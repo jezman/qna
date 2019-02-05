@@ -5,11 +5,10 @@ class QuestionNotifyMailer < ApplicationMailer
   #
   #   en.question_notify_mailer.new_answer.subject
   #
-  def new_answer(answer)
+  def new_answer(user, answer)
     @answer = answer
     @question = answer.question
     @owner = answer.user
-    user = @question.user
 
     mail to: user.email
   end
