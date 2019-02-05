@@ -11,5 +11,7 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :links, reject_if: :all_blank
   accepts_nested_attributes_for :badge, reject_if: :all_blank
 
+  scope :per_day, -> { where(created_at: Date.today.all_day) }
+
   validates :title, :body, presence: true
 end

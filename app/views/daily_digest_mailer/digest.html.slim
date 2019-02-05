@@ -1,0 +1,5 @@
+h1 Questions daily digest
+
+ul
+  - @questions.each do |question|
+    = link_to question.title, url_for(question)
