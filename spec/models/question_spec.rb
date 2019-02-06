@@ -38,4 +38,18 @@ RSpec.describe Question, type: :model do
       expect(question.subscribers).to include other_user
     end
   end
+
+  describe '#unsubscribe' do
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+
+    before { question.subscribe(other_user) }
+
+    it 'unsubscribe from question' do
+      question.unsubscribe(other_user)
+
+      expect(question.subscribers).to_not include other_user
+    end
+  end
 end

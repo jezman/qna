@@ -20,12 +20,14 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   def subscribe(user)
-    subscriptions.create(user: user)
+    subscriptions.create(user: user) unless subscribed?(user)
   end
 
-  private
+  def unsubscribe(user)
+    subscriptions.find_by(user: user).destroy if subscribed?(user)
+  end
 
-  def subscribed?
+  def subscribed?(user)
     subscriptions.exists?(user: user)
   end
 end
