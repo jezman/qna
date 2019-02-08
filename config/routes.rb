@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   end
 
   use_doorkeeper
+
   root to: 'questions#index'
+
+  get :search, to: 'searches#index'
 
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
@@ -53,5 +56,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
   mount ActionCable.server => '/cable'
 end
