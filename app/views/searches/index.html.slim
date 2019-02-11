@@ -1,0 +1,5 @@
+p = "Found results: #{@results.count}"
+
+div class = "search-results"
+  - @results.each do |result|
+    = render result.class.to_s.downcase, result: result
