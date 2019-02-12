@@ -1,0 +1,15 @@
+= form_tag search_path, method: :get, class: 'search-form' do
+  span.form-group
+    = select_tag :resource,
+                 options_for_select(Search::RESOURCES, params[:resource]),
+                 include_blank: 'Everywhere',
+                 class: 'form-control'
+
+  span.form-group
+    = text_field_tag :query,
+                     params[:query],
+                     placeholder: 'Seach...',
+                     required: true,
+                     class: 'form-control'
+
+  = submit_tag 'Find'
