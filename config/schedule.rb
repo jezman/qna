@@ -21,4 +21,7 @@ every 1.days do
   runner 'DailyDigestJob.perform_now'
 end
 
+every 30.minutes do
+  runner 'ts:index'
+end
 # Learn more: http://github.com/javan/whenever
