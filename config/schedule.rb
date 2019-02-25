@@ -22,6 +22,6 @@ every 1.days do
 end
 
 every 30.minutes do
-  runner 'ts:index'
+  rake 'ts:index'
 end
 # Learn more: http://github.com/javan/whenever
