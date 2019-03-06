@@ -1,3 +1,4 @@
-div class = "comment-#{comment.id}"
-  span= "#{comment.user.email}: "
-  span= comment.body
+- cache comment do
+  div class = "comment-#{comment.id}"
+    span= "#{comment.user.email}: "
+    span= comment.body

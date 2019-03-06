@@ -1,62 +1,63 @@
-div class = "answer-#{answer.id}"
-  div class = "answer-#{answer.id}-errors"
+- cache answer do
+  div class = "answer-#{answer.id}"
+    div class = "answer-#{answer.id}-errors"
 
-  .vote
-    = render 'shared/vote', resource: answer
+    .vote
+      = render 'shared/vote', resource: answer
 
-  - if answer.best?
-    .best_answer
-      h3= 'Best answer'
+    - if answer.best?
+      .best_answer
+        h3= 'Best answer'
+        p= answer.body
+    - else 
       p= answer.body
-  - else 
-    p= answer.body
 
-  - if answer.links.count != 0
-    .links
-      p Links:
-      ul
-        = render answer.links, resource: answer
-
-  - if answer.files.attached?
-    = render 'attachments/attachment', resource: answer
-
-  - if answer.persisted?
-    - if can?(:update, answer)
-      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-    - if can?(:destroy, answer)
-      = link_to 'Remove answer', answer_path(answer),
-        class: 'delete-answer-link',
-        remote: true,
-        method: :delete,
-        data: { answer_id: answer.id }
-      
-    - if can?(:best, answer) && !answer.best?
-      = link_to 'Choose the best', best_answer_path(answer),
-        class: 'best-answer-link',
-        remote: true,
-        method: :patch,
-        data: { answer_id: answer.id }
-
-    - if can?(:create, Comment)
-      = link_to 'New comment', '#', class: 'new-comment-link', data: { klass: answer.class.to_s.downcase, id: answer.id }
-      = render 'comments/form', resource: answer
-
-  .comments
-    p Comments:
-    = render answer.comments
-
-  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-    = render 'shared/errors', resource: answer
-    p
-      = f.label :body, 'Your answer'
-      = f.text_area :body
-    p
-      = f.label :files
-      = f.file_field :files, multiple: true
-    p Links:
-    p
-      = f.fields_for :links do |l|
+    - if answer.links.count != 0
       .links
-        = link_to_add_association 'add link', f, :links
+        p Links:
+        ul
+          = render answer.links, resource: answer
+
+    - if answer.files.attached?
+      = render 'attachments/attachment', resource: answer
+
+    - if answer.persisted?
+      - if can?(:update, answer)
+        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      - if can?(:destroy, answer)
+        = link_to 'Remove answer', answer_path(answer),
+          class: 'delete-answer-link',
+          remote: true,
+          method: :delete,
+          data: { answer_id: answer.id }
+        
+      - if can?(:best, answer) && !answer.best?
+        = link_to 'Choose the best', best_answer_path(answer),
+          class: 'best-answer-link',
+          remote: true,
+          method: :patch,
+          data: { answer_id: answer.id }
+
+      - if can?(:create, Comment)
+        = link_to 'New comment', '#', class: 'new-comment-link', data: { klass: answer.class.to_s.downcase, id: answer.id }
+        = render 'comments/form', resource: answer
+
+    .comments
+      p Comments:
+      = render answer.comments
+
+    = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+      = render 'shared/errors', resource: answer
       p
-      = f.submit 'Save'
+        = f.label :body, 'Your answer'
+        = f.text_area :body
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true
+      p Links:
+      p
+        = f.fields_for :links do |l|
+        .links
+          = link_to_add_association 'add link', f, :links
+        p
+        = f.submit 'Save'
