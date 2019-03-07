@@ -1,5 +1,5 @@
 class Like < ApplicationRecord
-  belongs_to :likable, polymorphic: true
+  belongs_to :likable, polymorphic: true, touch: true
   belongs_to :user
 
   validates :rating, presence: true

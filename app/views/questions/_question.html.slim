@@ -1,23 +1,26 @@
-.title
-  p= question.title
+- cache question do
+  .title
+    p= question.title
 
-  .vote
-    = render 'shared/vote', resource: question
-  
-  .subscribe
-    - if @question.subscribed?(current_user)
-      = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, cass: 'unsubscribe-question-link'
-    - else
-      = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, class: 'subscribe-question-link'
+  .body
+    p= question.body
 
-.body
-  p= question.body
+.vote
+  = render 'shared/vote', resource: question
+
+.subscribe
+  - if @question.subscribed?(current_user)
+    = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, cass: 'unsubscribe-question-link'
+  - else
+    = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, class: 'subscribe-question-link'
+
 
 - if question.badge.present?
-  .badge
-    p Badge:
-    = image_tag question.badge.image, title: question.badge.title, size: "50x50"
-    p = question.badge.title
+  - cache question.badge do
+    .badge
+      p Badge:
+      = image_tag question.badge.image, title: question.badge.title, size: "50x50"
+      p = question.badge.title
 
 - if question.links.count != 0
   .links

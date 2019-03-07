@@ -1,8 +1,9 @@
 div class = "link-#{link.id}"
-  - if link.gist?
-    = link.gist_content
-  - else
-    li= link_to link.name, link.url, target: :blank
+  - cache link_cache_key(link) do
+    - if link.gist?
+      = link.gist_content
+    - else
+      li= link_to link.name, link.url, target: :blank
 
   - if can?(:destroy, resource)
     = link_to 'remove', link_path(link),
